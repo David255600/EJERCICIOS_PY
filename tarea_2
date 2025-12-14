@@ -1,0 +1,57 @@
+import random
+
+# Lista de palabras para el juego
+palabras = ["python", "computadora", "programacion", "desarrollo", "teclado", "internet"]
+
+def mostrar_tablero(palabra_secreta, letras_adivinadas):
+    tablero = ""
+    for letra in palabra_secreta:
+        if letra in letras_adivinadas:
+            tablero += letra + " "
+        else:
+            tablero += "_ "
+    return tablero
+
+def ahorcado():
+    print("🎮 ¡Bienvenido al juego del Ahorcado! 🎮")
+    
+    palabra_secreta = random.choice(palabras)
+    letras_adivinadas = []
+    intentos = 6  # Número clásico de intentos
+
+    while intentos > 0:
+        print("\nPalabra: ", mostrar_tablero(palabra_secreta, letras_adivinadas))
+        print(f"Intentos restantes: {intentos}")
+
+        letra = input("Ingresa una letra: ").lower()
+
+        if letra in letras_adivinadas:
+            print("Ya adivinaste esa letra. Intenta otra.")
+            continue
+
+        letras_adivinadas.append(letra)
+
+        if letra not in palabra_secreta:
+            intentos -= 1
+            print("❌ ¡Incorrecto!")
+        else:
+            print("✔ ¡Correcto!")
+
+        # Verificar si ganó
+        completo = True
+        for letra_secreta in palabra_secreta:
+            if letra_secreta not in letras_adivinadas:
+                completo = False
+                break
+
+        if completo:
+            print("\n🎉 ¡Felicidades, ganaste! 🎉")
+            print("La palabra era:", palabra_secreta)
+            return
+
+    # Si pierde
+    print("\n💀 ¡Perdiste! Te quedaste sin intentos.")
+    print("La palabra era:", palabra_secreta)
+
+# Ejecutar el juego
+ahorcado()
